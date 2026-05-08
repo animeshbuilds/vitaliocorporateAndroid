@@ -1,0 +1,68 @@
+<MotionScene
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="220">
+
+        <OnSwipe
+            motion:touchAnchorId="@id/swipeRefreshLayout"
+            motion:touchAnchorSide="top"
+            motion:dragDirection="dragUp"
+            motion:moveWhenScrollAtTop="true"/>
+    </Transition>
+
+    <!-- START -->
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint android:id="@id/constraintLayout">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintHeight_percent="0.25"/>
+        </Constraint>
+
+        <Constraint android:id="@id/swipeRefreshLayout">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toBottomOf="@id/constraintLayout"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"/>
+        </Constraint>
+
+    </ConstraintSet>
+
+    <!-- END -->
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint android:id="@id/constraintLayout">
+            <PropertySet android:alpha="0"/>
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintHeight_percent="0.0"/>
+        </Constraint>
+
+        <Constraint android:id="@id/swipeRefreshLayout">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"/>
+        </Constraint>
+
+    </ConstraintSet>
+
+</MotionScene>

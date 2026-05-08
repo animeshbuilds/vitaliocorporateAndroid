@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Only needed for Android 12 and above -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <application
+        android:name=".utils.MyApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/applicationlogo"
+        android:roundIcon="@drawable/applicationlogo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Nativevitalio"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".UI.UltraHumanActivity"
+            android:launchMode="singleTop"
+            android:exported="true" >
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="callback"
+                    android:scheme="${appAuthRedirectScheme}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.fragments.MedicationFragment"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+
+
+        <!-- Widget Provider -->
+        <receiver
+            android:name=".widgets.WaterIntakeWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.critetiontech.ctvitalio.ADD_WATER" />
+                <action android:name="com.critetiontech.ctvitalio.RESET" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/water_intake_widget_info" />
+        </receiver>
+        <activity
+            android:name=".UI.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ResetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ForgotPassword"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".UI.CTChatBot.MyComposeScreen" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_my_compose_screen" -->
+        <!-- android:theme="@style/Theme.Nativevitalio" /> -->
+        <activity
+            android:name=".UI.SignupActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="android.app.shortcuts"
+            android:resource="@xml/shortcuts" />
+
+        <activity
+            android:name=".UI.otp"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.Home"
+            android:exported="true"
+
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <activity
+            android:name=".UI.Login"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- android:name=".UI.MovieListActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".UI.MovieListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Splash"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.OmronActivity.SupportDeviceListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_support_device_list"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".UI.OmronActivity.WheezeMainActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.OmronActivity.WeightScaleDataListingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.OmronActivity.WheezeDataListingActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UI.OmronActivity.UserPersonalSettingsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".UI.OmronActivity.BloodPressureMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.OmronConnectedDeviceList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.BloodPressureDataListingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UI.OmronActivity.BaseActivity" />
+        <activity
+            android:name=".UI.OmronActivity.WeightScaleMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.TemperatureRecordingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.PulseOxymeterMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.PulseOxymeterDataListingActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".UI.OmronActivity.ActivityMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.ScanActivity"
+            android:screenOrientation="portrait" />
+
+        <provider
+            android:name=".Database.OmronDBProvider"
+            android:authorities="com.critetiontech.ctvitalio.Database.OmronDBProvider"
+            android:exported="false" />
+
+        <activity
+            android:name=".UI.OmronActivity.DataListingActivity"
+            android:label="@string/title_activity_data_listing"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".UI.OmronActivity.ActivityDataActivity"
+            android:label="@string/title_activity_data_listing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.ReminderActivity"
+            android:label="@string/title_activity_reminder"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.DataDeviceListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.OmronActivity.ActivityListingActivity"
+            android:label="@string/title_activity_listing"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".utils.NotificationPublisher"
+            android:exported="false" />
+
+        <service
+            android:name=".firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service> <!-- Default notification icon and color -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/applicationlogo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primaryBlue" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="custom_notification_channel" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
+    </application>
+
+</manifest>

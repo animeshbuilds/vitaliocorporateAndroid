@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/medicine_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:clipToOutline="true">
+
+    <!-- Time -->
+    <LinearLayout
+        android:id="@+id/periodSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/periodIcon"
+            android:layout_width="45dp"
+            android:layout_height="58dp"
+            android:src="@drawable/morning_icon" />
+
+        <TextView
+            android:id="@+id/periodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Morning"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#333" />
+    </LinearLayout>
+
+    <!-- Right side -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_medicine_card"
+        android:padding="14dp"
+        android:id="@+id/medicineSection"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Left section (Medicine info) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Medicine name -->
+            <TextView
+                android:id="@+id/medicine_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thyroxine"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <!-- Dosage and instruction -->
+            <TextView
+                android:id="@+id/medicine_dose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="112 mg • Before meals"
+                android:textSize="13sp"
+                android:textColor="#5F6471"
+                android:layout_marginTop="2dp" />
+
+            <!-- Time row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <!-- LEFT SECTION: Time -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/ic_time"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/clock_icon"
+                        android:layout_marginEnd="4dp"
+                        app:tint="#5F6471" />
+
+                    <TextView
+                        android:id="@+id/medicine_time1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="08:00 AM"
+                        android:textSize="13sp"
+                        android:textColor="#5F6471" />
+                </LinearLayout>
+
+                <!-- SPACE BETWEEN LEFT & RIGHT -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- RIGHT SECTION: Taken button + Reminder -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/btn_taken"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        android:text="Taken"
+                        android:textSize="13sp"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/bg_taken_button"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/ic_reminder"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_notification"
+                        android:visibility="gone"
+                        app:tint="#999999" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Right section (Taken button or bell icon) -->
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

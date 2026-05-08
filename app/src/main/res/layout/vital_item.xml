@@ -1,0 +1,110 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/vitalsLayout"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:layout_margin="8.dp"
+    android:backgroundTint="@color/dashboardIconBg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:backgroundTint="@color/white"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/vitalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vital Name"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="#828691" />
+
+        <!-- Value OR BP -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <!-- Normal Value -->
+            <TextView
+                android:id="@+id/vitalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Value"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor" />
+
+            <!-- BP Container -->
+            <LinearLayout
+                android:id="@+id/bpContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginStart="4dp">
+
+                <TextView
+                    android:id="@+id/sysValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/textColor" />
+
+                <TextView
+                    android:id="@+id/separator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp" />
+
+                <TextView
+                    android:id="@+id/diaValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="80"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/textColor" />
+            </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/vitalUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mmHg"
+                    android:textColor="#828691"
+                    android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Unit + Status -->
+
+
+            <TextView
+                android:id="@+id/vitalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Normal"
+                android:textSize="10sp"
+                android:paddingHorizontal="8.dp"
+                android:paddingVertical="2.dp"
+                android:background="@drawable/rounded_corners"
+                android:textColor="#5D8FD3" />
+        </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

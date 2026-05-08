@@ -1,0 +1,1192 @@
+package com.critetiontech.ctvitalio.viewmodel
+
+import DailyCheckItem
+import DailyCheckListWrapper
+import EnergyResponse
+import FluidResponse
+import InsightJson
+import MoodResponse
+import PillReminderModel
+import PillTime
+import PrefsManager
+import QuickMetric
+import QuickMetricsTiled
+import SleepCycleItem
+import SleepValue
+import Summary
+import Vital
+import VitalInsight
+import VitalResponseValue
+import VitalsResponse
+import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
+import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.critetiontech.ctvitalio.R
+import com.critetiontech.ctvitalio.model.DietItemModel
+import com.critetiontech.ctvitalio.model.FluidType
+import com.critetiontech.ctvitalio.model.ManualFoodAssignResponse
+import com.critetiontech.ctvitalio.model.ManualFoodItem
+import com.critetiontech.ctvitalio.model.SymptomDetail
+import com.critetiontech.ctvitalio.model.SymptomResponse
+import com.critetiontech.ctvitalio.utils.ApiEndPoint
+import com.critetiontech.ctvitalio.utils.ApiEndPointCorporateModule
+import com.critetiontech.ctvitalio.utils.ConfirmationBottomSheet
+import com.critetiontech.ctvitalio.utils.MyApplication
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import androidx.core.graphics.toColorInt
+import com.critetiontech.ctvitalio.Database.appDatabase.AppDatabase
+import com.critetiontech.ctvitalio.Database.appDatabase.VitalsEntity
+import com.critetiontech.ctvitalio.UI.SignupActivity
+import com.critetiontech.ctvitalio.adapter.NotificationItem
+import com.critetiontech.ctvitalio.adapter.PriorityAction
+import com.critetiontech.ctvitalio.adapter.PriorityActionWrapper
+import com.critetiontech.ctvitalio.model.DashboardActiveChallenges
+import com.critetiontech.ctvitalio.model.DashboardActiveChallengesWrapper
+import com.critetiontech.ctvitalio.networking.RetrofitInstance
+import java.time.Duration
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
+
+data class HoldSpeakSymptomDetail(
+    val pdmID: Int,
+    val details: String
+)
+enum class WebSocketState {
+    CONNECTING, CONNECTED, DISCONNECTED, ERROR
+}
+class DashboardViewModel(application: Application) : BaseViewModel(application) {
+
+    private val _vitalList = MutableLiveData<List<Vital>>()
+    val vitalList: LiveData<List<Vital>> get() = _vitalList
+    private val dao = AppDatabase.getDB(application).vitalsDao()
+    private val _quickMetricList = MutableLiveData<List<QuickMetric>>()
+    val  quickMetricListList: LiveData<List<QuickMetric>> get() = _quickMetricList
+    private val _dietList = MutableLiveData<List<DietItemModel>>()
+    val dietList: LiveData<List<DietItemModel>> get() = _dietList
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _pillList = MutableLiveData<List<PillReminderModel>>()
+    val pillList: LiveData<List<PillReminderModel>> get() = _pillList
+
+
+    private val _webSocketStatus = MutableLiveData<WebSocketState>()
+    val webSocketStatus: LiveData<WebSocketState> get() = _webSocketStatus
+
+    fun setWebSocketState(state: WebSocketState) {
+        _webSocketStatus.postValue(state)
+    }
+
+
+    private val _sleepValueList = MutableLiveData<SleepValue>()
+    val sleepValueList: LiveData<SleepValue> get() = _sleepValueList
+
+
+    // ✅ Correct — holds a list
+    private val _notificationList = MutableLiveData<List<NotificationItem>>()
+    val notificationList: LiveData<List<NotificationItem>> = _notificationList
+
+
+    private val _vitalInsights = MutableLiveData<List<VitalInsight>?>()
+    val vitalInsights: MutableLiveData<List<VitalInsight>?> get() = _vitalInsights
+
+
+    private val _sleepsummary = MutableLiveData<List<Summary>?>()
+    val  sleepsummary: MutableLiveData<List<Summary>?> get() = _sleepsummary
+
+    private val _sleepCyclesList = MutableLiveData<List<SleepCycleItem>>()
+    val sleepCyclesList: LiveData<List<SleepCycleItem>> = _sleepCyclesList
+
+    private val _quickMetricsTiledList = MutableLiveData<List<QuickMetricsTiled>>()
+    val quickMetricsTiledList: LiveData<List<QuickMetricsTiled>> = _quickMetricsTiledList
+    private val _priorityAction = MutableLiveData<List<PriorityAction>?>()
+    val  priorityAction: MutableLiveData<List<PriorityAction>?> get() = _priorityAction
+
+    private val _dailyCheckList = MutableLiveData<List<DailyCheckItem>>()
+    val dailyCheckList: LiveData<List<DailyCheckItem>> = _dailyCheckList
+
+    private val _activeChallenges = MutableLiveData<List<DashboardActiveChallenges>>()
+    val activeChallenges: LiveData<List<DashboardActiveChallenges>> = _activeChallenges
+    private val _insightWrapperList = MutableLiveData< InsightJson? >()
+    val insightWrapperList: MutableLiveData<InsightJson?> =  _insightWrapperList
+    fun getVitals() {
+        viewModelScope.launch {
+            _loading.value = true
+
+            // 1️⃣ Load from local first
+//            val localVitals = loadVitalsFromLocal()
+//            localVitals?.let { entity ->
+//                loadVitalsFromLocal(entity)
+//            }
+
+            try {
+                val queryParams = mapOf(
+                    "pid" to PrefsManager().getPatient()?.id.toString(),
+                    "clientId" to 194,
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicGet(
+                        url = ApiEndPoint().getPatientLastVital,
+                        params = queryParams
+                    )
+
+                if (response.isSuccessful) {
+                    val json = response.body()?.string()
+                    val parsed = Gson().fromJson(json, VitalsResponse::class.java)
+                    // Update UI from API
+                    _vitalList.value = parsed.responseValue.lastVital
+                    _notificationList.value=parsed.responseValue.notifications
+//                    _vitalInsights.value = parsed.responseValue.vitalInsights
+                    val decoded = decodePriorityAction(parsed.responseValue.priorityAction)
+                    _priorityAction.value = decoded                // Store locally 2️⃣ SAVE API DATA INTO ROOM DB
+                    saveVitalsToLocal(parsed.responseValue)
+                    _dailyCheckList.value = decodeDailyCheckList(parsed.responseValue.dailyCheckList)
+                    _activeChallenges.value = decodeDashboardActiveChallenges(parsed.responseValue.activeChallenges)
+                    val jsonString = parsed.responseValue.vitalInsights
+                        ?.firstOrNull()
+                        ?.insightJson
+                            // stop if nothing found
+
+                    val decodedInsight = jsonString?.let { decodeInsightJson(it) }
+
+                    if (decodedInsight != null) {
+                        _insightWrapperList.value = decodedInsight
+                    }
+                    val sleepMetric243 = parsed.responseValue.sleepmetrics
+                        ?.firstOrNull { it.vitalID == 243 }
+
+                    sleepMetric243?.vitalValue?.let { vitalValueJson ->
+                        val cleanedJson = vitalValueJson.trim('"')
+                            .replace("\\\"", "\"")
+
+                        val sleepValue = Gson().fromJson(cleanedJson, SleepValue::class.java)
+                        _sleepValueList.value = sleepValue
+                        _quickMetricList.value = sleepValue.QuickMetrics ?: emptyList()
+                        _quickMetricsTiledList.value = sleepValue.QuickMetricsTiled ?: emptyList()
+                        _sleepsummary.value = sleepValue.Summary ?: emptyList()
+
+
+                        _sleepCyclesList.value = sleepValue.SleepCycles?.Cycles ?: emptyList()
+
+                    }
+
+                    _loading.value = false
+                } else {
+                    _loading.value = false
+                    _errorMessage.value = "Error Code: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unexpected error"
+            }
+        }
+    }
+    fun decodeInsightJson(jsonString: String): InsightJson {
+        val gson = Gson()
+        return gson.fromJson(jsonString, InsightJson::class.java)
+    }
+       fun decodeDailyCheckList(wrapperList: List<DailyCheckListWrapper>?): List<DailyCheckItem> {
+        if (wrapperList.isNullOrEmpty()) return emptyList()
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<DailyCheckItem>>() {}.type
+
+        val jsonString = wrapperList[0].dailyChecklist
+        return gson.fromJson(jsonString, listType)
+    }
+
+
+    fun decodeDashboardActiveChallenges(wrapperList: List<DashboardActiveChallengesWrapper>?): List<DashboardActiveChallenges> {
+        if (wrapperList.isNullOrEmpty()) return emptyList()
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<DashboardActiveChallenges>>() {}.type
+
+        val jsonString = wrapperList[0].challenges
+        return gson.fromJson(jsonString, listType)
+    }
+    fun decodePriorityAction(wrapperList: List<PriorityActionWrapper>?): List<PriorityAction> {
+        if (wrapperList.isNullOrEmpty()) return emptyList()
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<PriorityAction>>() {}.type
+
+        // The backend ALWAYS sends a STRING containing a JSON array
+        val jsonString = wrapperList[0].actions
+
+        return gson.fromJson(jsonString, listType)
+    }
+
+    suspend fun saveVitalsToLocal(responseValue: VitalResponseValue) {
+        val entity = VitalsEntity(
+            id = 1,
+            lastVitalJson = Gson().toJson(responseValue.lastVital),
+            insightsJson = Gson().toJson(responseValue.vitalInsights),
+            sleepMetricJson = Gson().toJson(responseValue.sleepmetrics),
+        )
+        dao.insertVitals(entity)
+    }
+
+    suspend fun loadVitalsFromLocal(): VitalsEntity? {
+        return dao.getVitals()
+    }
+    private fun loadVitalsFromLocal(entity: VitalsEntity) {
+        val vitalListType = object : TypeToken<List<Vital>>() {}.type
+        val insightListType = object : TypeToken<List<VitalInsight>>() {}.type
+        val quickMetricListType = object : TypeToken<List<QuickMetric>>() {}.type
+
+        val lastVital: List<Vital> = Gson().fromJson(entity.lastVitalJson, vitalListType)
+        val insights: List<VitalInsight> = Gson().fromJson(entity.insightsJson, insightListType)
+        val quickMetrics: List<QuickMetric> = Gson().fromJson(entity.sleepMetricJson, quickMetricListType)
+
+        _vitalList.value = lastVital
+        _vitalInsights.value = insights
+        _quickMetricList.value = quickMetrics
+    }
+
+
+    private val _intakeList = MutableLiveData<List<ManualFoodItem>>()
+    var intakeList: LiveData<List<ManualFoodItem>> = _intakeList
+
+    private val _fluidList = MutableLiveData<List<FluidType>>()
+    val fluidList: LiveData<List<FluidType>> = _fluidList
+
+
+    fun fetchManualFluidIntake(uhid: String) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                val queryParams = mapOf("Uhid" to uhid, "intervalTimeInHour" to 24)
+
+                val response = RetrofitInstance
+                    .createApiService7096()
+                    .dynamicGet(
+                        url = ApiEndPoint().getFluidIntakeDetails,
+                        params = queryParams
+                    )
+
+                if (response.isSuccessful) {
+                    _loading.value = false
+                    val responseBodyString = response.body()?.string()
+                    val type = object : TypeToken<ManualFoodAssignResponse>() {}.type
+                    val parsed = Gson().fromJson<ManualFoodAssignResponse>(responseBodyString, type)
+                    val allItems = parsed.responseValue
+                    _intakeList.value= allItems
+                    val filteredList = parsed.responseValue.mapNotNull {
+
+                        Log.d("TAG", "fetchManualFluidIntake: "+intakeList.value)
+                        val qty = it.quantity.toFloatOrNull() ?: 0f
+                        if (qty > 0f) {
+                            FluidType(
+                                name = it.foodName.trim(),
+                                amount = qty.toInt(),
+                                color = mapColorForFood(it.foodName) ,
+                                id= it.foodID
+                            )
+                        } else null
+                    }
+                    _fluidList.value = filteredList
+
+                } else {
+                    _loading.value = false
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
+
+    private fun mapColorForFood(name: String): Int {
+        return when (name.trim().lowercase()) {
+            "milk" -> "#FFEB3B".toColorInt()
+            "water" -> "#4FC3F7".toColorInt()
+            "green tea", "tea" -> "#A1887F".toColorInt()
+            "coffee" -> "#795548".toColorInt()
+            "fruit juice", "juice" -> "#FF9800".toColorInt()
+            else -> Color.LTGRAY
+        }}
+
+
+    fun getCurrentDate(pattern: String = "yyyy-MM-dd"): String {
+    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+    return sdf.format(Date())
+}
+
+    val selectedMoodId = MutableLiveData<String>()
+    fun onMoodClicked(id:String) {
+        selectedMoodId.value =id
+    }
+    fun getMoodByPid( ) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+
+                val queryParams = mapOf(
+                    "pid" to PrefsManager().getPatient()?.id.toString() ,
+                    "clientId" to "194",
+                )
+
+
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicGet(
+                        url =  ApiEndPointCorporateModule().getMoodByPid,
+                        params = queryParams
+                    )
+
+
+                if (response.isSuccessful) {
+                    _loading.value = false
+                    val json = response.body()?.string()
+                    val parsed = Gson().fromJson(json, MoodResponse::class.java)
+
+// Store the label in a variable
+                    val moodLabel: String = parsed.responseValue.firstOrNull()?.moodId.toString()
+                    if (moodLabel != null) {
+                        onMoodClicked(moodLabel)
+                    }
+                    Log.d("RESPONSE", "responseValue: $json")
+
+                } else {
+
+                    _loading.value = false
+                    _errorMessage.value = "Error Code: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unexpected error"
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
+    private val _latestEnergy = MutableLiveData<Int>()
+    val latestEnergy: LiveData<Int> get() = _latestEnergy
+
+    private val _latestStatus = MutableLiveData<String>()
+    val latestStatus: LiveData<String> get() = _latestStatus
+    fun getAllEnergyTankMaster( ) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+
+                val queryParams = mapOf(
+                    "pid" to PrefsManager().getPatient()?.id.toString() ,
+                    "userId" to "99",
+                    "clientId" to "194",
+                )
+
+
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicGet(
+                        url =  ApiEndPointCorporateModule().getAllEnergyTankMaster,
+                        params = queryParams
+                    )
+
+
+                if (response.isSuccessful) {
+                    _loading.value = false
+                    val json = response.body()?.string()
+                    val parsed = Gson().fromJson(json, EnergyResponse::class.java)
+
+// Store the label in a variable
+                    val latest = parsed.responseValue.maxByOrNull { it.createdDate }
+                    _latestEnergy .value = latest?.energyPercentage
+                    _latestStatus .value = latest?.statusLabel
+                    Log.d("RESPONSE", "responseValue: $json")
+
+                } else {
+
+                    _loading.value = false
+                    _errorMessage.value = "Error Code: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unexpected error"
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
+    fun getAllPatientMedication( ) {
+        _loading.value = true
+
+        viewModelScope.launch {
+            try {
+
+
+                val queryParams = mapOf(
+                    "UhID" to PrefsManager().getPatient()?.empId.toString()
+                )
+                // This response is of type Response<ResponseBody>
+                val response = RetrofitInstance
+                    .createApiService( )
+                    .dynamicGet(
+                        url = ApiEndPoint().getAllPatientMedication,
+                        params = queryParams
+                    )
+                _loading.value = false
+                if (response.isSuccessful) {
+                    val json = response.body()?.string()
+                    val list = parseMedicationNameAndDateList(json)
+                    val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                        Date()
+                    )
+
+// Filter the list to only include today's medications
+                    val todaysMedications = list.filter { it.date == currentDate }
+                    _pillList.postValue(todaysMedications)
+                    Log.d("RESPONSE", "responseValue: $_pillList")
+
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+    fun getFoodIntake( ) {
+        _loading.value = true
+//        val finalDate = if (date.isNullOrBlank()) {
+//            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+//        } else {
+//            date
+//        }
+        val finalDate = getCurrentDate("yyyy-MM-dd")
+        viewModelScope.launch {
+            try {
+                val queryParams = mapOf(
+                    "Uhid" to PrefsManager().getPatient()?.empId.toString(),
+                    "entryType" to "D",
+                    "fromDate" to finalDate,
+                )
+
+                val response = RetrofitInstance
+                    .createApiService7096()
+                    .dynamicGet(
+                        url = ApiEndPoint().getFoodIntake,
+                        params = queryParams
+                    )
+                Log.e("getFoodIntakegetFoodIntake", "Failed: ${ response.body()?.string()}")
+                _loading.value = false
+
+                if (response.isSuccessful) {
+                    val json = response.body()?.string()
+                    val rootObj = Gson().fromJson(json, JsonObject::class.java)
+                    val listJson = rootObj.getAsJsonArray("foodIntakeList")
+
+                    val type = object : TypeToken<List<DietItemModel>>() {}.type
+                    val parsedList: List<DietItemModel> = Gson().fromJson(listJson, type)
+
+                    _dietList.postValue(parsedList)
+                } else {
+                    _dietList.postValue(emptyList())
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _dietList.postValue(emptyList())
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+    private fun parseMedicationNameAndDateList(json: String?): List<PillReminderModel> {
+        val result = mutableListOf<PillReminderModel>()
+        if (json == null) return result
+
+        val root = JSONObject(json)
+        val medArray = root.getJSONObject("responseValue").getJSONArray("medicationNameAndDate")
+
+        for (i in 0 until medArray.length()) {
+            val obj = medArray.getJSONObject(i)
+            val jsonTime = JSONArray(obj.getString("jsonTime"))
+
+            val times = mutableListOf<PillTime>()
+            for (j in 0 until jsonTime.length()) {
+                val timeObj = jsonTime.getJSONObject(j)
+                times.add(
+                    PillTime(
+                        time = timeObj.optString("time"),
+                        durationType = timeObj.optString("durationType"),
+                        icon = timeObj.optString("icon"),
+                        intakeTime = timeObj.optString("intakeTime")
+                    )
+                )
+            }
+
+            result.add(
+                PillReminderModel(
+                    prescriptionRowID = obj.optInt("prescriptionRowID"),
+                    pmId = obj.optInt("pmId"),
+                    date = obj.optString("date"),
+                    drugName = obj.optString("drugName"),
+                    dosageForm = obj.optString("dosageForm"),
+                    frequency = obj.optString("frequency"),
+                    doseFrequency = obj.optString("doseFrequency"),
+                    remark = obj.optString("remark"),
+                    medicineId = obj.optInt("medicineId"),
+                    drugId = obj.optInt("drugId"),
+                    jsonTime = times,
+                    translation = obj.optString("translation")
+                )
+            )
+        }
+
+        return result
+    }
+
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun postAnalyzedVoiceData(context: Context, transcript: String) {
+        val patient = PrefsManager().getPatient() ?: return
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        getAllPatientMedication()
+        listOf(
+            mapOf(
+                "drugName" to "Paracetamol",
+                "medicationNameAndDate" to listOf(
+                    mapOf("date" to currentDate, "time" to "08:00", "status" to "taken")
+                )
+            )
+        )
+
+        listOf(
+            mapOf("foodName" to "Rice", "dietId" to "1"),
+            mapOf("foodName" to "Soup", "dietId" to "2")
+        )
+
+        val data = mapOf(
+//            "text" to "fever pulse rate 74 water 100 ml urine 100 ml output 74 ml ",
+            "text" to transcript,
+            "userid" to patient.id.toString(),
+            "uhid" to patient.empId.toString(),
+            "date" to currentDate,
+            "time" to currentTime,
+            "clientID" to 1,
+            "medication" to listOf(
+                mapOf(
+                    "drugName" to emptyList<Any>(),
+                    "medicationNameAndDate" to emptyList<Any>()
+                )
+            ),
+            "foodIntakeList" to emptyList<Any>()
+        )
+
+        val requestBody = mapOf("text" to data)
+        JSONObject(requestBody).toString()
+
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.createApiService(
+                    overrideBaseUrl= RetrofitInstance.shopright
+
+
+                ).dynamicRawPost(
+                    url = "echo/",
+                    body = requestBody
+                )
+
+                if (response.isSuccessful) {
+                    val body = response.body()?.string()
+                    Log.d("API_RESPONSE", "data is $body")
+
+                    val parsedJson = JSONObject(body)
+                    val myVital = parsedJson.getJSONObject("echo").getJSONObject("myvital")
+
+                    var addedData = ""
+
+                    // Check vitals and construct summary
+                    val vitalKeys = listOf(
+                        "vmValueTemperature", "vmValueRespiratoryRate", "vmValueRbs",
+                        "vmValueHeartRate", "vmValueSPO2", "vmValuePulse",
+                        "vmValueBPDias", "vmValueBPSys", "weight"
+                    )
+
+                    val hasVitals = vitalKeys.any { key ->
+                        val value = myVital.optString(key, "0")
+                        value != "0" && value != "0.0"
+                    }
+
+                    if (hasVitals) {
+                        vitalKeys.forEach { key ->
+                            val value = myVital.optString(key, "0")
+                            if (value != "0" && value != "0.0") {
+                                val name = key.removePrefix("vmValue").replace("BPSys", "BP Systolic")
+                                    .replace("BPDias", "BP Diastolic")
+                                    .replace("Rbs", "RBS/Glucose")
+                                    .replace("Pulse", "Pulse Rate")
+                                    .replace("HeartRate", "Heart Rate")
+                                    .replace("SPO2", "SpO2")
+                                    .replace("RespiratoryRate", "Respiratory Rate")
+                                    .replace("Temperature", "Temperature")
+                                    .replace("weight", "Weight")
+                                addedData += "$name $value, "
+                            }
+                        }
+                    }
+
+                    // Symptoms
+                    val symptomsList = myVital.optJSONArray("symptomsList")
+                    symptomsList?.let {
+                        for (i in 0 until it.length()) {
+                            val symptomObj = it.getJSONObject(i)
+                            val symptomName = symptomObj.optString("symptom")
+                            if (symptomName.isNotBlank()) {
+                                addedData += "$symptomName, "
+                            }
+                        }
+                    }
+
+                    // Fluids
+                    val fluidValue = myVital.optJSONObject("fluidValue")
+                    fluidValue?.let {
+                        val keys = fluidValue.keys()
+                        while (keys.hasNext()) {
+                            val key = keys.next()
+                            val value = fluidValue.optDouble(key, 0.0)
+                            if (value > 0.0) {
+                                addedData += "$key $value ml, "
+                            }
+                        }
+                    }
+
+                    // Food Intake
+                    val foodList = myVital.optJSONArray("foodIntakeList")
+                    foodList?.let {
+                        for (i in 0 until it.length()) {
+                            val foodObj = it.getJSONObject(i)
+                            val foodName = foodObj.optString("foodName")
+                            if (foodName.isNotBlank()) {
+                                addedData += "$foodName, "
+                            }
+                        }
+                    }
+
+                    // Medications
+                    val medicationList = myVital.optJSONArray("myMedication")
+                    medicationList?.let {
+                        for (i in 0 until it.length()) {
+                            val medObj = it.getJSONObject(i)
+                            val drugName = medObj.optString("drugName")
+                            if (drugName.isNotBlank()) {
+                                addedData += "$drugName, "
+                            }
+                        }
+                    }
+
+                    if (addedData.isNotEmpty()) {
+                        addedData = addedData.removeSuffix(", ")
+
+                        val bottomSheet = ConfirmationBottomSheet(
+                            message = "Are you sure you want to save $addedData?",
+                            onConfirm = {
+                                // Insert vitals
+                                if (hasVitals) {
+                                    insertPatientVital(
+                                        BPSys = myVital.optString("vmValueBPSys", "0"),
+                                        BPDias = myVital.optString("vmValueBPDias", "0"),
+                                        rr = myVital.optString("vmValueRespiratoryRate", "0"),
+                                        spo2 = myVital.optString("vmValueSPO2", "0"),
+                                        pr = myVital.optString("vmValuePulse", "0"),
+                                        tmp = myVital.optString("vmValueTemperature", "0"),
+                                        hr = myVital.optString("vmValueHeartRate", "0"),
+                                        weight = myVital.optString("weight", "0"),
+                                        rbs = myVital.optString("vmValueRbs", "0"),
+                                        positionId = "129"
+                                    )
+                                }
+
+                                // Insert symptoms
+                                symptomsList?.let {
+                                    val symptomDetails = mutableListOf<HoldSpeakSymptomDetail>()
+                                    for (i in 0 until it.length()) {
+                                        val symp = it.getJSONObject(i)
+                                        val id = symp.optInt("id", -1)
+                                        val name = symp.optString("symptom")
+                                        if (id != -1 && name.isNotBlank()) {
+                                            symptomDetails.add(HoldSpeakSymptomDetail(id, name))
+                                        }
+                                    }
+                                    if (symptomDetails.isNotEmpty()) insertSymptoms(symptomDetails)
+                                }
+
+                                // Insert fluid intake
+                                fluidValue?.let {
+                                    val fluidMap = mapOf(
+                                        "water" to "97694",
+                                        "milk" to "76",
+                                        "green tea" to "114973",
+                                        "coffee" to "168",
+                                        "fruit juice" to "66"
+                                    )
+                                    for (key in fluidMap.keys) {
+                                        val value = fluidValue.optDouble(key, 0.0)
+                                        if (value > 0.0) {
+                                            fluidIntake(  value.toString())
+                                        }
+                                    }
+                                }
+
+
+
+                                Toast.makeText(context, "$addedData saved successfully!", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                        bottomSheet.show((context as AppCompatActivity).supportFragmentManager, "ConfirmSheet")
+                    }
+
+                }  else {
+                    Log.e("VoicePost", "Failed: ${response.code()}")
+                }
+
+            } catch (e: Exception) {
+                Log.e("VoicePost", "Exception: ${e.message}")
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    private val _patientSymptomList = MutableLiveData<List<SymptomDetail>>()
+    val  patientSymptomList: LiveData<List<SymptomDetail>> get() = _patientSymptomList
+    fun getSymptoms(isFromd :Boolean? =false, navController: NavController? =null) {
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                val queryParams = mapOf(
+                    "uhID" to PrefsManager().getPatient()?.empId.toString(),
+                    "clientID" to PrefsManager().getPatient()?.clientId.toString(),
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .queryDynamicRawPost(
+                        url = ApiEndPoint().getSymptoms,
+                        params = queryParams
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+                    val json = response.body()?.string()
+                    val parsed = Gson().fromJson(json, SymptomResponse::class.java)
+                    _patientSymptomList.value = parsed.responseValue
+                    if((isFromd==true)){
+                        if (_patientSymptomList.value?.isNotEmpty() == true) {
+                            navController?.navigate(R.id.action_dashboard_to_symptomTrackerFragments)
+                        } else {
+                            navController?.navigate(R.id.action_dashboard_to_symptomsFragment)
+                        }
+                    }
+                } else {
+                    if((isFromd==true)){
+                        navController?.navigate(R.id.action_dashboard_to_symptomsFragment)
+                    }
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) { if((isFromd==true)){
+                if (navController != null) {
+                    navController.navigate(R.id.action_dashboard_to_symptomsFragment)
+                }
+            }
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+    fun jsonObjectToMap(json: JSONObject): Map<String, Any?> {
+        val map = mutableMapOf<String, Any?>()
+        val keys = json.keys()
+        while (keys.hasNext()) {
+            val key = keys.next()
+            map[key] = json.opt(key)
+        }
+        return map
+    }
+    fun toCamelCase(input: String): String {
+        return input.replaceFirstChar { it.uppercaseChar() }
+    }
+
+    fun vitalName(myVital: Map<String, Any?>): String {
+        var vitalData = ""
+
+        if (myVital["vmValueTemperature"].toString() != "0.0") {
+            vitalData += "Temperature ${myVital["vmValueTemperature"]}, "
+        }
+        if (myVital["vmValueRespiratoryRate"].toString() != "0") {
+            vitalData += "Respiratory Rate ${myVital["vmValueRespiratoryRate"]}, "
+        }
+        if (myVital["vmValueRbs"].toString() != "0") {
+            vitalData += "RBS ${myVital["vmValueRbs"]}, "
+        }
+        if (myVital["vmValueHeartRate"].toString() != "0") {
+            vitalData += "Heart Rate ${myVital["vmValueHeartRate"]}, "
+        }
+        if (myVital["vmValueSPO2"].toString() != "0") {
+            vitalData += "SPO2 ${myVital["vmValueSPO2"]}, "
+        }
+        if (myVital["vmValuePulse"].toString() != "0") {
+            vitalData += "Pulse Rate ${myVital["vmValuePulse"]}, "
+        }
+        if (myVital["vmValueBPDias"].toString() != "0") {
+            vitalData += "BP Dias ${myVital["vmValueBPDias"]}, "
+        }
+        if (myVital["vmValueBPSys"].toString() != "0") {
+            vitalData += "BP Sys ${myVital["vmValueBPSys"]}, "
+        }
+        if (myVital["weight"].toString() != "0") {
+            vitalData += "Weight ${myVital["weight"]}, "
+        }
+
+        return vitalData
+    }
+
+
+    fun insertPatientVital(
+        BPSys: String?= "0",
+        BPDias: String?= "0",
+        rr: String? = "0",
+        spo2: String? = "0",
+        pr: String? ="0",
+        tmp: String? = "0",
+        hr: String? ="0",
+        weight: String? ="0",
+        rbs: String? = "0",
+        positionId:  String? = "0",
+    ) {
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                val queryParams = mapOf(
+                    "userId" to 0,
+                    "vmValueBPSys" to BPSys.toString(),
+                    "vmValueBPDias" to BPDias.toString(),
+                    "vmValueRespiratoryRate" to rr.toString(),
+                    "vmValueSPO2" to spo2.toString(),
+                    "vmValuePulse" to pr.toString(),
+                    "vmValueTemperature" to tmp.toString(),
+                    "vmValueHeartRate" to hr.toString(),
+                    "weight" to weight.toString(),
+                    "vmValueRbs" to rbs.toString(),
+                    "vitalTime" to SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
+                    "vitalDate" to SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
+                    "uhid" to PrefsManager().getPatient()?.empId.toString(),
+                    "currentDate" to  SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date()),
+                    "clientId" to PrefsManager().getPatient()?.clientId.toString(),
+                    "isFromPatient" to true,
+                    "positionId" to positionId.toString()
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicRawPost(
+                        url = ApiEndPoint().insertPatientVital,
+                        body = queryParams
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    fun insertUltraHumanToken(
+        accessToken: String,
+        refreshToken: String?,
+        tokenType: String?,
+        expiry: String?,
+        source: String?
+    ) {
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                val queryParams = mapOf(
+                    "loginId" to  PrefsManager().getPatient()?.emailID.toString(),
+                    "accessToken" to accessToken.toString(),
+                    "expiresIn" to expiry.toString(),
+                    "refreshToken" to refreshToken.toString(),
+
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicRawPost(
+                        url = ApiEndPoint().insertApisToken,
+                        body = queryParams
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+
+                    Toast.makeText(MyApplication.appContext,"Connected to Ring", Toast.LENGTH_SHORT).show()
+//                    val intent = Intent(MyApplication.appContext, SignupActivity::class.java)
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    MyApplication.appContext.startActivity(intent)
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun insertSymptoms(selectedSymptoms: List<HoldSpeakSymptomDetail>) {
+        _loading.value = true
+        getSymptoms()
+        viewModelScope.launch {
+            try {
+                val dtDataTable = mutableListOf<Map<String, String>>()
+
+                // Get the current timestamp once
+                val now = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    java.time.LocalDateTime.now()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))
+                } else {
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                }
+
+                // Populate data table from selected symptoms
+                selectedSymptoms.forEach { symptom ->
+                    dtDataTable.add(
+                        mapOf(
+                            "detailID" to symptom.pdmID.toString(),
+                            "detailsDate" to now,
+                            "details" to symptom.details,
+                            "isFromPatient" to "1"
+                        )
+                    )
+                }
+                patientSymptomList.value?.forEach { symptom ->
+                    dtDataTable.add(
+                        mapOf(
+                            "detailID" to symptom.detailID.toString(),
+                            "detailsDate" to symptom.detailsDate ,
+                            "details" to symptom.details,
+                            "isFromPatient" to "1"
+                        )
+                    )
+                }
+
+                val queryParams = mapOf(
+                    "uhID" to (PrefsManager().getPatient()?.empId ?: ""),
+                    "userID" to "0",
+                    "doctorId" to "0",
+                    "jsonSymtoms" to Gson().toJson(dtDataTable),
+                    "clientID" to (PrefsManager().getPatient()?.clientId ?: "")
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .queryDynamicRawPost(
+                        url = ApiEndPoint().insertSymtoms,
+                        params = queryParams as Map<String, String>
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+                    MyApplication.appContext
+
+
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun fluidIntake(givenFoodQuantity: String) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+                val currentDate : String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(Date())
+                val currentTime: String = SimpleDateFormat("HH:mm", Locale.getDefault())
+                    .format(Date())
+
+                val user = PrefsManager().getPatient()
+                val body = mapOf(
+                    "pid" to user?.id.toString(),
+                    "clientId" to  user?.clientId.toString(),
+                    "intakeDate" to currentDate,
+                    "intakeTime" to currentTime,
+                    "fluidType" to "water",
+                    "quantity" to givenFoodQuantity,
+                    "remarks" to " Feeling Thristy",
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicRawPost(
+                        url = "api/EmployeeFluidIntake/InsertEmployeeFluidIntake",
+                        body = body
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        getDailyEmployeeFluidIntake()
+                    }
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+    private val _totalQuantity = MutableLiveData<Int>()
+    val totalQuantity: LiveData<Int> get() = _totalQuantity
+    private val _lastDrinkInfo = MutableLiveData<String>()
+    val lastDrinkInfo: LiveData<String> get() = _lastDrinkInfo
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun  getDailyEmployeeFluidIntake( ) {
+        viewModelScope.launch {
+            try {
+                _loading.value = true
+
+                val user = PrefsManager().getPatient()
+                val body = mapOf(
+                    "pid" to user?.id.toString(),
+                    "clientId" to  user?.clientId.toString(),
+                )
+
+                val response = RetrofitInstance
+                    .createApiService()
+                    .dynamicGet(
+                        url = "api/EmployeeFluidIntake/GetDailyEmployeeFluidIntake",
+                        params = body
+                    )
+
+                _loading.value = false
+
+                if (response.isSuccessful) {
+
+
+                    val json = response.body()?.string()
+                    val parsed = Gson().fromJson(json, FluidResponse::class.java)
+
+                    // ⭐ SAFE total quantity
+                    val totalQty = (parsed.responseValue ?: emptyList()).sumOf { it.quantity } .roundToInt()
+                    _totalQuantity.postValue(totalQty)
+
+                    Log.e("VoicePost", "totalQty: ${totalQty}")
+                    // ⭐ SAFE last drink
+                    val lastDrink = (parsed.responseValue ?: emptyList()).lastOrNull()
+                    val lastDrinkTime = lastDrink?.intakeTime ?: "Unknown"
+
+                    if (lastDrink != null) {
+                        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+                        val lastTime = LocalTime.parse(lastDrinkTime, formatter)
+                        val now = LocalTime.now()
+
+                        val diff = Duration.between(lastTime, now)
+                        val hours = diff.toHours()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            diff.toMinutesPart()
+                        } else {
+                            TODO("VERSION.SDK_INT < S")
+                        }
+
+                         val result = "last drink was $hours hr ago"
+                        _lastDrinkInfo.postValue(result)
+                    } else {
+                        _lastDrinkInfo.value = "No drink data"
+                    }
+                } else {
+                    _errorMessage.value = "Error: ${response.code()}"
+                }
+
+            } catch (e: Exception) {
+                _loading.value = false
+                _errorMessage.value = e.message ?: "Unknown error occurred"
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
+}

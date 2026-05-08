@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chatBotLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+
+    <!-- ChipGroup for Menu -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:singleLine="false"
+        app:chipSpacingHorizontal="12dp"
+        app:chipSpacingVertical="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnVital"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vital" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnSymptoms"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Symptoms" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnFluid"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fluid" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnDiet"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diet" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnPillsReminder"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pills Reminder" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/btnUploadReport"
+            style="@style/ChatChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Report" />
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,167 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/backgroundColor">
+
+        <!-- Top Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/symptoms_tracker"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/textColor" />
+
+
+            <LinearLayout
+                android:id="@+id/historyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/rounded_button_bg"
+                android:backgroundTint="@color/dashboardIconBg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/reload_icon"
+                    app:tint="@color/primaryBlue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="History"
+                    android:textColor="#356DF3"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Search -->
+        <EditText
+            android:id="@+id/searchSymptom"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/search_symptom"
+            android:background="@drawable/rounded_coner_gl_16"
+            style="@style/mediumBCN"
+            android:paddingHorizontal="16dp"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchSuggestionList"
+            android:layout_width="match_parent"
+            android:layout_height="101dp"
+            android:visibility="gone"
+            android:background="#F2F2F2"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
+            android:layout_marginTop="4dp"
+            android:padding="4dp" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/selectedChipsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="8dp"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            android:background="@android:color/white" />
+        <!-- Info Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/highligh_any_other"
+            android:textColor="@color/textColor"
+            android:textSize="14sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/selectedCountText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Selected: 0"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#1976D2"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginBottom="8dp" />-->
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/symptomRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            android:paddingBottom="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Select Other Sysmptoms"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#1976D2"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginBottom="8dp" />-->
+<!--        <com.google.android.flexbox.FlexboxLayout-->
+<!--            android:id="@+id/moreSymptoms"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="8dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            app:flexWrap="wrap"-->
+<!--            app:justifyContent="flex_start"-->
+<!--            app:alignItems="flex_start"-->
+<!--            />-->
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/saveSymptomsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/save_and_update_symptoms"
+            android:backgroundTint="#1976D2"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>

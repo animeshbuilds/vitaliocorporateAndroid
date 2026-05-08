@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:padding="5sp">-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/backgroundColor"
+            android:paddingTop="32dp"
+            android:gravity="center_horizontal">
+
+            <!-- Header -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/backgroundColor"
+                android:paddingHorizontal="10dp"
+              >
+
+                <!-- Back Icon -->
+                <ImageView
+                    android:id="@+id/backIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription="Back"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/headerTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fluid_data_input"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/textColor"
+                    app:layout_constraintStart_toEndOf="@id/backIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/historyBtn"
+                    android:paddingStart="12dp" />
+
+                <!-- History Button -->
+                <LinearLayout
+                    android:id="@+id/historyBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:background="@drawable/rounded_button_bg"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_health_history"
+                        android:layout_marginEnd="8dp"
+                        app:tint="@color/primaryBlue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="History"
+                        android:textColor="#356DF3"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <com.google.android.material.button.MaterialButtonToggleGroup-->
+<!--                android:id="@+id/fluidToggleGroup"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@color/dashboardIconBg"-->
+<!--                android:backgroundTint="@android:color/transparent"-->
+<!--                app:singleSelection="true"-->
+<!--                app:checkedButton="@id/btnIntake">-->
+
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/btnIntake"-->
+<!--                    style="@style/Widget.MaterialComponents.Button"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:paddingStart="@dimen/_16sdp"-->
+<!--                    android:paddingEnd="@dimen/_16sdp"-->
+<!--                    android:text="@string/fluid_intake"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    app:cornerRadius="14dp"-->
+<!--                    app:backgroundTint="@color/primaryBlue" />-->
+
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/btnOutput"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="Fluid Output"-->
+<!--                    android:paddingStart="@dimen/_16sdp"-->
+<!--                    android:paddingEnd="@dimen/_16sdp"-->
+<!--                    android:textColor="@color/gray"-->
+<!--                    app:cornerRadius="14dp"-->
+<!--                    app:backgroundTint="@android:color/white" />-->
+<!--            </com.google.android.material.button.MaterialButtonToggleGroup>-->
+
+            <!-- Recommended / Intake / Remaining -->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/fluidIntakeLayout"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <!-- Top Info Row -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/recommendedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Recommended Fluid: "
+                            android:textColor="@color/textColor"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/intakeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="Intake: "
+                            android:textColor="@color/textColor"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Stacked Bar Container -->
+                    <LinearLayout
+                        android:id="@+id/stackedBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rounded_corners"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:backgroundTint="#E0E0E0"
+                        android:weightSum="1"/>
+
+                    <!-- Bottom Info Row -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/remainingText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/remaining"
+                            android:textColor="@color/textColor"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/legendLayout" />
+
+
+                        <LinearLayout
+                            android:id="@+id/legendLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/_10sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/remainingText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!-- Legend -->
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="230dp"
+                    android:layout_height="200dp"
+                    android:importantForAccessibility="no"
+                    android:visibility="visible"
+                    android:background="@drawable/ic_no_fluid"
+                    android:id="@+id/noFluid"
+                    android:layout_gravity="center"/>
+
+                <!-- Glass animator/graphic -->
+                <com.critetiontech.ctvitalio.utils.GreenTea
+                    android:layout_width="230dp"
+                    android:layout_height="230dp"
+                    android:visibility="gone"
+                    android:id="@+id/cupglassView"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+
+                <com.critetiontech.ctvitalio.utils.CoffeVIew
+                    android:layout_width="230dp"
+                    android:layout_height="230dp"
+                    android:visibility="gone"
+                    android:id="@+id/coffeView"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <com.critetiontech.ctvitalio.utils.GlassView
+                    android:layout_width="150dp"
+                    android:layout_height="230dp"
+                    android:visibility="gone"
+                    android:padding="@dimen/_10sdp"
+                    android:id="@+id/waterGlassView"
+                    android:layout_gravity="center"
+                    />
+
+                <com.critetiontech.ctvitalio.utils.JuiceView
+                    android:layout_width="140dp"
+                    android:layout_height="230dp"
+                    android:visibility="gone"
+                    android:id="@+id/juiceGlassView"
+                    android:layout_gravity="center"
+                    />
+
+                <com.critetiontech.ctvitalio.utils.MilkView
+                    android:layout_width="140dp"
+                    android:layout_height="230dp"
+                    android:visibility="gone"
+                    android:id="@+id/milkGlassView"
+                    android:layout_gravity="center"
+                    />
+
+
+
+
+                <TextView
+                    android:text="Last intake: 1h 34m ago"
+                    android:textSize="14sp"
+                    android:textColor="#999"
+                   android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"  android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+
+                <!-- Drink Selection -->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fluidRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:clipToPadding="true" />
+
+
+                <!-- Glass Size -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewGlassSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:id="@+id/outPutLayout"
+                android:background="@color/backgroundColor">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <!-- Top counts -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:gravity="center"
+                                android:text="Urination count"
+                                android:textColor="#888"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="8 times"
+                                android:textColor="#000"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="40dp"
+                            android:background="#CCC" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:gravity="center"
+                                android:text="Urination volume"
+                                android:textColor="#888"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="1450 ml"
+                                android:textColor="#000"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Custom draggable progress visual mimic -->
+                    <RelativeLayout
+                        android:id="@+id/ovalFillMeterRoot"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="24dp"
+                        android:gravity="center_horizontal"
+                        android:background="@color/backgroundColor">
+
+                        <LinearLayout
+                            android:id="@+id/scaleLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="300dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="8dp">
+                        </LinearLayout>
+
+                        <com.critetiontech.ctvitalio.utils.OvalFillMeterView
+                            android:id="@+id/ovalMeterView"
+                            android:layout_width="160dp"
+                            android:layout_height="300dp"
+                            android:layout_toEndOf="@id/scaleLayout"
+                            android:layout_centerVertical="true" />
+
+                        <View
+                            android:id="@+id/thumbLine"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="8dp"
+                            android:background="#FFA000"
+                            android:layout_alignTop="@id/ovalMeterView"
+                            android:layout_alignStart="@id/scaleLayout" />
+
+                        <LinearLayout
+                            android:id="@+id/labelBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="#FFA000"
+                            android:padding="10dp"
+                            android:layout_alignTop="@id/thumbLine"
+                            android:layout_toEndOf="@id/ovalMeterView"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:id="@+id/thumbLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.0"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+
+
+                    <!-- Last urination time -->
+                    <TextView
+                        android:text="Last urination  •  1h 34m ago"
+                        android:textColor="#888"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:layout_marginVertical="8dp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <!-- Color Bar -->
+                    <LinearLayout
+                        android:id="@+id/colorBarLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:background="@drawable/rounded_corners"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <View android:id="@+id/colorLightYellow" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#FFFDE7" android:clickable="true" android:focusable="true"/>
+                        <View android:id="@+id/colorYellow" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#FFF176" android:clickable="true" android:focusable="true"/>
+                        <View android:id="@+id/colorDarkYellow" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#FFEB3B" android:clickable="true" android:focusable="true"/>
+                        <View android:id="@+id/colorAmber" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#FFC107" android:clickable="true" android:focusable="true"/>
+                        <View android:id="@+id/colorBrown" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#A1887F" android:clickable="true" android:focusable="true"/>
+                        <View android:id="@+id/colorRed" android:layout_width="0dp" android:layout_height="match_parent"
+                            android:layout_weight="1" android:background="#D32F2F" android:clickable="true" android:focusable="true"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView android:layout_width="0dp" android:layout_weight="1" android:gravity="center" android:text="Light\nYellow" android:textSize="10sp"
+                            android:layout_height="wrap_content"  android:textColor="@color/textColor"/>
+                        <TextView android:layout_width="0dp" android:textColor="@color/textColor" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Yellow" android:textSize="10sp"/>
+                        <TextView android:layout_width="0dp" android:textColor="@color/textColor" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Dark\nYellow" android:textSize="10sp"/>
+                        <TextView android:layout_width="0dp" android:textColor="@color/textColor" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Amber" android:textSize="10sp"/>
+                        <TextView android:layout_width="0dp" android:textColor="@color/textColor" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Brown" android:textSize="10sp"/>
+                        <TextView android:layout_width="0dp" android:textColor="@color/textColor"  android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Red" android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+
+
+
+            <!-- Add Intake Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddIntake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_intake"
+                android:height="@dimen/_40sdp"
+                android:textAllCaps="false"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primaryColor"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+    </ScrollView>
+<!--    </androidx.core.widget.NestedScrollView>-->
+</layout>

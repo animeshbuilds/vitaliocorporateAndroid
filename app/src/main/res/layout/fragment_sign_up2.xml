@@ -1,0 +1,104 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        android:scrollbarSize="0dp"
+        android:background="@color/backgroundColor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+           >
+
+            <!-- Illustration -->
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/ivIllustration"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:src="@drawable/welcome" />
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Vitalio."
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Subtitle -->
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Let us know about you, so we can manage to help you in better ways."
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- First Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First Name"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Type your first name"
+                android:background="@drawable/edittext_bg"
+                android:paddingHorizontal="16dp"
+                android:textColorHint="#999999"
+                android:textColor="#000000"/>
+
+            <!-- Last Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Name"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Type your last name"
+                android:background="@drawable/edittext_bg"
+                android:paddingHorizontal="16dp"
+                android:textColorHint="#999999"
+                android:textColor="#000000"/>
+
+            <!-- Next Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="50dp"
+                app:tint="@color/primaryBlue"
+                android:layout_marginBottom="16dp"
+                app:cornerRadius="10dp"
+                android:backgroundTint="@color/primaryBlue"
+                android:text="Next"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

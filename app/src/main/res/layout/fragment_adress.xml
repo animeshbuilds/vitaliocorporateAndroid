@@ -1,0 +1,265 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="item"
+            type="String"/>
+        <variable
+            name="isSelected"
+            type="Boolean"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+
+        <ScrollView
+            android:id="@id/scrollid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dashboardIconBg"
+            android:padding="24dp"
+            android:scrollbarSize="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <!-- Illustration -->
+
+
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/ivIllustration"
+                    android:layout_width="204dp"
+                    android:layout_height="186dp"
+                    android:paddingEnd="32dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/raddress" />
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Where do you live?"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp" />
+
+                <!-- Subtitle -->
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your address helps us provide location-based services and personalized care."
+                    android:textColor="#666666"
+                    android:textSize="16sp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    android:gravity="center_horizontal"
+                    android:background="@color/dashboardIconBg">
+
+                    <!-- Row 1: Country & State -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginBottom="12dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/dashboardIconBg"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <TextView
+                                android:text="Country"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:textColor="@color/darkGreyText"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"/>
+
+                            <EditText
+                                android:id="@+id/etCountry"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Select Country"
+                                android:padding="@dimen/_5sdp"
+                                android:paddingEnd="16dp"
+
+                                android:drawableRight="@drawable/dropdown"
+                                android:inputType="none"
+                               android:drawablePadding="10dp"
+                                android:focusable="false"
+                                android:background="@drawable/input_bg"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/backgroundColor"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp">
+
+                            <TextView
+                                android:text="State"
+                                android:layout_height="wrap_content" android:layout_width="wrap_content"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:textColor="@color/darkGreyText" />
+
+                            <EditText
+                                android:id="@+id/etState"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/input_bg"
+                                android:drawableRight="@drawable/dropdown"
+                                android:drawablePadding="10dp"
+                                android:focusable="false"
+                                android:hint="Select State"
+                                android:inputType="none"
+                                android:padding="@dimen/_5sdp"
+                                android:paddingEnd="16dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Row 2: City & Pin Code -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:backgroundTint="@color/backgroundColor"
+                        android:layout_marginBottom="12dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <TextView
+                                android:text="City"
+                                android:layout_height="wrap_content" android:layout_width="wrap_content"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:textColor="@color/darkGreyText" />
+
+                            <EditText
+                                android:id="@+id/etCity"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:padding="@dimen/_5sdp"
+                                android:hint="Select City"
+                                android:drawableRight="@drawable/dropdown"
+                                android:inputType="none"
+                                android:drawablePadding="10dp"
+                                android:focusable="false"
+                                android:paddingEnd="16dp"
+                            android:background="@drawable/input_bg"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/backgroundColor"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp">
+
+                            <TextView
+                                android:text="Pin Code"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_height="wrap_content" android:layout_width="wrap_content"
+                                android:textColor="@color/darkGreyText" />
+
+                            <EditText
+                                android:id="@+id/etPinCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Enter Pin Code"
+                                android:padding="@dimen/_5sdp"
+                                android:paddingEnd="16dp"
+                                 android:inputType="number"
+                                android:background="@drawable/input_bg"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Row 3: Street Address -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/backgroundColor"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:text="Street Address"
+                            android:layout_height="wrap_content" android:layout_width="wrap_content"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:textColor="@color/darkGreyText" />
+
+                        <EditText
+                            android:id="@+id/etStreet"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:padding="@dimen/_5sdp"
+
+                             android:hint="Street Address"
+                            android:background="@drawable/input_bg"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Next Button -->
+
+
+
+            </LinearLayout>
+        </ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="50dp"
+            app:tint="@color/primaryBlue"
+            android:layout_marginBottom="16dp"
+            android:layout_margin="16dp"
+            app:cornerRadius="10dp"
+            android:backgroundTint="@color/primaryBlue"
+            android:text="Next"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/scrollid"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

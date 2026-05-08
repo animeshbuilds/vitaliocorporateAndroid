@@ -1,0 +1,27 @@
+<resources>
+    <declare-styleable name="CustomTextField">
+        <attr name="hintTextColor" format="color" />
+        <attr name="placeholderTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomRoundedButton">
+        <attr name="customCornerRadius" format="dimension"/>
+        <attr name="gradientStartColor" format="color"/>
+        <attr name="gradientEndColor" format="color"/>
+    </declare-styleable>
+
+
+        <declare-styleable name="CircularProgressView">
+            <attr name="progress" format="float" />
+            <attr name="maxProgress" format="float" />
+            <attr name="strokeWidth" format="dimension" />
+            <attr name="progressColor" format="color" />
+            <attr name="backgroundColor" format="color" />
+            <attr name="textColor" format="color" />
+            <attr name="textSize" format="dimension" />
+        </declare-styleable>
+
+        <declare-styleable name="WaveLiquidProgressView">
+            <attr name="wavePercent" format="integer"/>
+        </declare-styleable>
+</resources>

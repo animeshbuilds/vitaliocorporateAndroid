@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mynavigation"
+    app:startDestination="@id/dashboard">
+
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.CorporateDashBoard"
+        android:label="fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_drawer4"
+            app:destination="@id/drawer4" />
+        <action
+            android:id="@+id/action_dashboard_to_symptomsFragment"
+            app:destination="@id/symptomsFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_fluidFragment"
+            app:destination="@id/fluidFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_vitalDetail"
+            app:destination="@id/vitalDetail" />
+        <action
+            android:id="@+id/action_dashboard_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_connection"
+            app:destination="@id/connection" />
+        <action
+            android:id="@+id/action_dashboard_to_dietChecklist"
+            app:destination="@id/dietChecklist" />
+        <action
+            android:id="@+id/action_dashboard_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_uploadReportHistory2"
+            app:destination="@id/uploadReportHistory" />
+        <action
+            android:id="@+id/action_dashboard_to_voiceFragment"
+            app:destination="@id/voiceFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_intakePills"
+            app:destination="@id/intakePills" />
+        <action
+            android:id="@+id/action_dashboard_to_chatBotPage"
+            app:destination="@id/chatBotPage" />
+        <action
+            android:id="@+id/action_dashboard_to_fluidInputHistoryFragment"
+            app:destination="@id/fluidInputHistoryFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_uploadReportHistory"
+            app:destination="@id/uploadReportHistory" />
+        <action
+            android:id="@+id/action_dashboard_to_allergies3"
+            app:destination="@id/allergies3" />
+        <action
+            android:id="@+id/action_dashboard_to_fluidOutputFragment"
+            app:destination="@id/fluidOutputFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_symptomTrackerFragments"
+            app:destination="@id/symptomTrackerFragments" />
+        <action
+            android:id="@+id/action_dashboard_to_challenges"
+            app:destination="@id/challenges" />
+        <action
+            android:id="@+id/action_dashboard_to_leaderboardFragment"
+            app:destination="@id/leaderboardFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_challengeDetailsFragment"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_moodFragment"
+            app:destination="@id/moodFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_energyTank"
+            app:destination="@id/energyTank"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_dashboard_to_challengeDetailsFragment2"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_wellnessMetrics"
+            app:destination="@id/wellnessMetrics" />
+        <action
+            android:id="@+id/action_dashboard_to_sleepDetails"
+            app:destination="@id/sleepDetails" />
+        <action
+            android:id="@+id/action_dashboard_to_medicationFragment"
+            app:destination="@id/medicationFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_waterIntakeFragment"
+            app:destination="@id/waterIntakeFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_newChallengeFragment"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_addMedicineReminderFragment"
+            app:destination="@id/addMedicineReminderFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_addMedicineReminderFragment2"
+            app:destination="@id/addMedicineReminderFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_addActivityFragment"
+            app:destination="@id/addActivityFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_smartGoalFragment"
+            app:destination="@id/smartGoalFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_dashboard_to_new_corporate_dashboard"
+            app:destination="@id/new_corporate_dashboard" />
+        <action
+            android:id="@+id/action_dashboard_to_mindfulnessFragment"
+            app:destination="@id/mindfulnessFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_movemenetIndex"
+            app:destination="@id/movemenetIndex" />
+        <action
+            android:id="@+id/action_dashboard_to_BPHistory"
+            app:destination="@id/BPHistory" />
+        <action
+            android:id="@+id/action_dashboard_to_glucoseHistory"
+            app:destination="@id/glucoseHistory" />
+        <action
+            android:id="@+id/action_dashboard_self"
+            app:destination="@id/dashboard" />
+        <action
+            android:id="@+id/action_dashboard_to_newChallengeDetails"
+            app:destination="@id/newChallengeDetails" />
+        <action
+            android:id="@+id/action_dashboard_to_gymListFragment"
+            app:destination="@id/gymListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allergies3"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.Allergies"
+        android:label="Allergies" />
+    <fragment
+        android:id="@+id/drawer4"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.drawer"
+        android:label="drawer" >
+        <action
+            android:id="@+id/action_drawer4_to_allergies3"
+            app:destination="@id/allergies3" />
+        <action
+            android:id="@+id/action_drawer4_to_settingsFragmentVitalio"
+            app:destination="@id/settingsFragmentVitalio" />
+        <action
+            android:id="@+id/action_drawer4_to_editProfile3"
+            app:destination="@id/editProfile3" />
+        <action
+            android:id="@+id/action_drawer4_to_connectSmartWatchFragment"
+            app:destination="@id/connectSmartWatchFragment" />
+        <action
+            android:id="@+id/action_drawer4_to_signUpFragment2"
+            app:destination="@id/signUpFragment2" />
+        <action
+            android:id="@+id/action_drawer4_to_emergencyContactFragment"
+            app:destination="@id/emergencyContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/symptomsFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SymptomsFragment"
+        android:label="SymptomsFragment" >
+        <action
+            android:id="@+id/action_symptomsFragment_to_symptomTrackerFragments"
+            app:destination="@id/symptomTrackerFragments" />
+        <action
+            android:id="@+id/action_symptomsFragment_to_symptomHistory"
+            app:destination="@id/symptomHistory" />
+    </fragment>
+    <fragment
+        android:id="@+id/symptomTrackerFragments"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SymptomTrackerFragments"
+        android:label="fragment_symptom_tracker_fragments"
+        tools:layout="@layout/fragment_symptom_tracker_fragments" >
+        <action
+            android:id="@+id/action_symptomTrackerFragments_to_symptomsFragment"
+            app:destination="@id/symptomsFragment" />
+        <action
+            android:id="@+id/action_symptomTrackerFragments_to_symptomHistory"
+            app:destination="@id/symptomHistory" />
+    </fragment>
+    <fragment
+        android:id="@+id/symptomHistory"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SymptomHistory"
+        android:label="SymptomHistory" />
+    <fragment
+        android:id="@+id/fluidFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.FluidFragment"
+        android:label="fragment_fluid"
+        tools:layout="@layout/fragment_fluid" >
+        <action
+            android:id="@+id/action_fluidFragment_to_fluidInputHistoryFragment"
+            app:destination="@id/fluidInputHistoryFragment" />
+        <action
+            android:id="@+id/action_fluidFragment_to_fluidOutputFragment"
+            app:destination="@id/fluidOutputFragment" />
+        <action
+            android:id="@+id/action_fluidFragment_to_waterLayout"
+            app:destination="@id/waterLayout" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragmentVitalio"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SettingsFragmentVitalio"
+        android:label="SettingsFragmentVitalio" />
+    <fragment
+        android:id="@+id/fluidInputHistoryFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.FluidInputHistoryFragment"
+        android:label="FluidInputHistoryFragment" />
+    <fragment
+        android:id="@+id/vitalDetail"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.VitalDetail"
+        android:label="VitalDetail" >
+        <action
+            android:id="@+id/action_vitalDetail_to_connection"
+            app:destination="@id/connection" />
+        <action
+            android:id="@+id/action_vitalDetail_to_vitalHistoryFragment"
+            app:destination="@id/vitalHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connection"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.Connection"
+        android:label="Connection" >
+        <action
+            android:id="@+id/action_connection_to_devicesConnectivity"
+            app:destination="@id/devicesConnectivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/dietChecklist"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.DietChecklist"
+        android:label="DietChecklist" />
+    <fragment
+        android:id="@+id/vitalHistoryFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.VitalHistoryFragment"
+        android:label="VitalHistoryFragment" />
+    <fragment
+        android:id="@+id/uploadReport"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.UploadReport"
+        android:label="UploadReport" >
+        <action
+            android:id="@+id/action_uploadReport_to_reportFieldsFragment"
+            app:destination="@id/reportFieldsFragment" />
+        <action
+            android:id="@+id/action_uploadReport_to_imagePdfViewFragment"
+            app:destination="@id/imagePdfViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportFieldsFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.ReportFieldsFragment"
+        android:label="ReportFieldsFragment" />
+    <fragment
+        android:id="@+id/fluidOutputFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.FluidOutputFragment"
+        android:label="FluidOutputFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.NotificationFragment"
+        android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/uploadReportHistory"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.UploadReportHistory"
+        android:label="UploadReportHistory" >
+        <action
+            android:id="@+id/action_uploadReportHistory_to_uploadReport3"
+            app:destination="@id/uploadReport" />
+        <action
+            android:id="@+id/action_uploadReportHistory_to_imagePdfViewFragment"
+            app:destination="@id/imagePdfViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile3"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.EditProfile"
+        android:label="EditProfile" />
+    <fragment
+        android:id="@+id/connectSmartWatchFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.ConnectSmartWatchFragment"
+        android:label="ConnectSmartWatchFragment" />
+    <fragment
+        android:id="@+id/devicesConnectivity"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.DevicesConnectivity"
+        android:label="DevicesConnectivity" />
+    <fragment
+        android:id="@+id/voiceFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.VoiceFragment"
+        android:label="VoiceFragment" >
+        <action
+            android:id="@+id/action_voiceFragment_to_uploadReportHistory"
+            app:destination="@id/uploadReportHistory" />
+        <action
+            android:id="@+id/action_voiceFragment_to_chatBotPage"
+            app:destination="@id/chatBotPage" />
+        <action
+            android:id="@+id/action_voiceFragment_to_intakePills"
+            app:destination="@id/intakePills" />
+        <action
+            android:id="@+id/action_voiceFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_intakePills2"
+            app:destination="@id/intakePills" />
+        <action
+            android:id="@+id/action_voiceFragment_to_editProfile3"
+            app:destination="@id/editProfile3" />
+        <action
+            android:id="@+id/action_voiceFragment_to_dietChecklist"
+            app:destination="@id/dietChecklist" />
+        <action
+            android:id="@+id/action_voiceFragment_to_fluidFragment"
+            app:destination="@id/fluidFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_fluidInputHistoryFragment"
+            app:destination="@id/fluidInputHistoryFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_fluidOutputFragment"
+            app:destination="@id/fluidOutputFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_allergies3"
+            app:destination="@id/allergies3" />
+        <action
+            android:id="@+id/action_voiceFragment_to_connectSmartWatchFragment"
+            app:destination="@id/connectSmartWatchFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_symptomHistory"
+            app:destination="@id/symptomHistory" />
+        <action
+            android:id="@+id/action_voiceFragment_to_emergencyContactFragment"
+            app:destination="@id/emergencyContactFragment" />
+        <action
+            android:id="@+id/action_voiceFragment_to_vitalHistoryFragment"
+            app:destination="@id/vitalHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment2"
+        android:name="com.critetiontech.ctvitalio.UI.ui.signupFragment.SignUpFragment2"
+        android:label="SignUpFragment2" />
+    <fragment
+        android:id="@+id/signupSelectGenderFragment"
+        android:name="com.critetiontech.ctvitalio.UI.ui.signupFragment.SignupSelectGenderFragment"
+        android:label="SignupSelectGenderFragment" />
+    <fragment
+        android:id="@+id/emergencyContactFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.EmergencyContactFragment"
+        android:label="EmergencyContactFragment" />
+    <fragment
+        android:id="@+id/intakePills"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.IntakePills"
+        android:label="IntakePills" />
+    <fragment
+        android:id="@+id/waterLayout"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.WaterLayout"
+        android:label="fragment_water_layout"
+        tools:layout="@layout/fragment_water_layout" />
+    <fragment
+        android:id="@+id/chatBotPage"
+        android:name="com.critetiontech.ctvitalio.UI.CTChatBot.ChatBotPage"
+        android:label="ChatBotPage" >
+        <action
+            android:id="@+id/action_chatBotPage_to_vitalDetail"
+            app:destination="@id/vitalDetail" />
+        <action
+            android:id="@+id/action_chatBotPage_to_intakePills"
+            app:destination="@id/intakePills" />
+        <action
+            android:id="@+id/action_chatBotPage_to_uploadReportHistory"
+            app:destination="@id/uploadReportHistory" />
+        <action
+            android:id="@+id/action_chatBotPage_to_fluidFragment"
+            app:destination="@id/fluidFragment" />
+        <action
+            android:id="@+id/action_chatBotPage_to_fluidInputHistoryFragment"
+            app:destination="@id/fluidInputHistoryFragment" />
+        <action
+            android:id="@+id/action_chatBotPage_to_symptomHistory"
+            app:destination="@id/symptomHistory" />
+        <action
+            android:id="@+id/action_chatBotPage_to_symptomTrackerFragments"
+            app:destination="@id/symptomTrackerFragments" />
+        <action
+            android:id="@+id/action_chatBotPage_to_dietChecklist"
+            app:destination="@id/dietChecklist" />
+        <action
+            android:id="@+id/action_chatBotPage_to_uploadReport"
+            app:destination="@id/uploadReport" />
+        <action
+            android:id="@+id/action_chatBotPage_to_uploadReport2"
+            app:destination="@id/uploadReport" />
+        <action
+            android:id="@+id/action_chatBotPage_to_symptomsFragment"
+            app:destination="@id/symptomsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePdfViewFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.ImagePdfViewFragment"
+        android:label="ImagePdfViewFragment" />
+    <fragment
+        android:id="@+id/challenges"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.Challenges"
+        android:label="fragment_challenges"
+        tools:layout="@layout/fragment_challenges" >
+        <action
+            android:id="@+id/action_challenges_to_challengeDetailsFragment"
+            app:destination="@id/challengeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.LeaderboardFragment"
+        android:label="LeaderboardFragment" />
+    <fragment
+        android:id="@+id/challengeDetailsFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.ChallengeDetailsFragment"
+        android:label="ChallengeDetailsFragment" />
+    <fragment
+        android:id="@+id/corporateDashBoard"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.CorporateDashBoard"
+        android:label="CorporateDashBoard" >
+        <action
+            android:id="@+id/action_corporateDashBoard_to_moodFragment"
+            app:destination="@id/moodFragment" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_connection"
+            app:destination="@id/connection" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_wellnessMetrics"
+            app:destination="@id/wellnessMetrics" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_challengeDetailsFragment"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_challengeDetailsFragment2"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_sleepDetails"
+            app:destination="@id/sleepDetails" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_medicationFragment"
+            app:destination="@id/medicationFragment" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_newChallengeFragment"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_corporateDashBoard_to_smartGoalFragment"
+            app:destination="@id/smartGoalFragment"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/moodFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.MoodFragment"
+        android:label="MoodFragment" />
+    <fragment
+        android:id="@+id/energyTank"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.EnergyTank"
+        android:label="fragment_energy_tank"
+        tools:layout="@layout/fragment_energy_tank" />
+    <fragment
+        android:id="@+id/wellnessMetrics"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.WellnessMetrics"
+        android:label="WellnessMetrics" >
+        <action
+            android:id="@+id/action_wellnessMetrics_to_movemenetIndex"
+            app:destination="@id/movemenetIndex" />
+        <action
+            android:id="@+id/action_wellnessMetrics_to_stressRhythm"
+            app:destination="@id/stressRhythm" />
+        <action
+            android:id="@+id/action_wellnessMetrics_to_brainWasteClearance"
+            app:destination="@id/brainWasteClearance" />
+        <action
+            android:id="@+id/action_wellnessMetrics_to_dynamicRecovery"
+            app:destination="@id/dynamicRecovery" />
+        <action
+            android:id="@+id/action_wellnessMetrics_to_sleepDetails"
+            app:destination="@id/sleepDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepDetails"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SleepDetails"
+        android:label="SleepDetails" />
+    <fragment
+        android:id="@+id/medicationFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.MedicationFragment"
+        android:label="MedicationFragment" >
+        <action
+            android:id="@+id/action_medicationFragment_to_addMedicineReminderFragment"
+            app:destination="@id/addMedicineReminderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waterIntakeFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.WaterIntakeFragment"
+        android:label="WaterIntakeFragment" />
+    <fragment
+        android:id="@+id/newChallengeFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.NewChallengeFragment"
+        android:label="fragment_new_challenge"
+        tools:layout="@layout/fragment_new_challenge" />
+    <fragment
+        android:id="@+id/addMedicineReminderFragment"
+        android:name="com.example.vitalio_pragya.fragment.AddMedicineReminderFragment"
+        android:label="AddMedicineReminderFragment" />
+    <fragment
+        android:id="@+id/addActivityFragment"
+        android:name="com.example.vitalio_pragya.AddActivityFragment"
+        android:label="AddActivityFragment" >
+        <action
+            android:id="@+id/action_addActivityFragment_to_bikingFragment"
+            app:destination="@id/bikingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bikingFragment"
+        android:name="com.example.vitalio_pragya.fragment.BikingFragment"
+        android:label="BikingFragment" />
+    <fragment
+        android:id="@+id/smartGoalFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SmartGoalFragment"
+        android:label="fragment_smart_goal"
+        tools:layout="@layout/fragment_smart_goal" >
+        <action
+            android:id="@+id/action_smartGoalFragment_to_setGoal"
+            app:destination="@id/setGoal" />
+    </fragment>
+    <fragment
+        android:id="@+id/setGoal"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.SetGoal"
+        android:label="SetGoal" />
+    <fragment
+        android:id="@+id/mindfulnessFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.MindfulnessFragment"
+        android:label="fragment_mindfullness"
+        tools:layout="@layout/fragment_mindfullness" />
+    <fragment
+        android:id="@+id/new_corporate_dashboard"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.dashboard_pages.new_corporate_dashboard"
+        android:label="new_corporate_dashboard" >
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_energyTank"
+            app:destination="@id/energyTank" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_smartGoalFragment"
+            app:destination="@id/smartGoalFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_medicationFragment"
+            app:destination="@id/medicationFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_sleepDetails"
+            app:destination="@id/sleepDetails" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_moodFragment"
+            app:destination="@id/moodFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_challengeDetailsFragment"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_challenges"
+            app:destination="@id/challenges" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_connection"
+            app:destination="@id/connection" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_wellnessMetrics"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_waterIntakeFragment"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_newChallengeFragment"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_new_corporate_dashboard_to_drawer4"
+            app:destination="@id/drawer4" />
+    </fragment>
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.dashboard_pages.Home"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_home2_to_medicationFragment"
+            app:destination="@id/medicationFragment" />
+        <action
+            android:id="@+id/action_home2_to_moodFragment"
+            app:destination="@id/moodFragment" />
+        <action
+            android:id="@+id/action_home2_to_connection"
+            app:destination="@id/connection" />
+        <action
+            android:id="@+id/action_home2_to_wellnessMetrics"
+            app:destination="@id/wellnessMetrics" />
+        <action
+            android:id="@+id/action_home2_to_challengeDetailsFragment"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_home2_to_challengeDetailsFragment2"
+            app:destination="@id/challengeDetailsFragment" />
+        <action
+            android:id="@+id/action_home2_to_sleepDetails"
+            app:destination="@id/sleepDetails" />
+        <action
+            android:id="@+id/action_home2_to_newChallengeFragment"
+            app:destination="@id/newChallengeFragment" />
+        <action
+            android:id="@+id/action_home2_to_smartGoalFragment"
+            app:destination="@id/smartGoalFragment"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/movemenetIndex"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.MovemenetIndex"
+        android:label="fragment_movemenet_index"
+        tools:layout="@layout/fragment_movemenet_index" />
+    <fragment
+        android:id="@+id/stressRhythm"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.StressRhythm"
+        android:label="StressRhythm" />
+    <fragment
+        android:id="@+id/brainWasteClearance"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.BrainWasteClearance"
+        android:label="fragment_brain_waste_clearance"
+        tools:layout="@layout/fragment_brain_waste_clearance" />
+    <fragment
+        android:id="@+id/dynamicRecovery"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.DynamicRecovery"
+        android:label="fragment_dynamic_recovery"
+        tools:layout="@layout/fragment_dynamic_recovery" />
+    <fragment
+        android:id="@+id/BPHistory"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.BPHistory"
+        android:label="fragment_b_p_history"
+        tools:layout="@layout/fragment_b_p_history" >
+        <action
+            android:id="@+id/action_BPHistory_to_connection"
+            app:destination="@id/connection" />
+    </fragment>
+    <fragment
+        android:id="@+id/glucoseHistory"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.GlucoseHistory"
+        android:label="GlucoseHistory" >
+        <action
+            android:id="@+id/action_glucoseHistory_to_connection"
+            app:destination="@id/connection" />
+    </fragment>
+    <fragment
+        android:id="@+id/newChallengeDetails"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.NewChallengeDetails"
+        android:label="NewChallengeDetails" />
+    <fragment
+        android:id="@+id/gymListFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.GymListFragment"
+        android:label="GymListFragment" />
+    <fragment
+        android:id="@+id/gymCheckInFragment"
+        android:name="com.critetiontech.ctvitalio.UI.fragments.GymCheckInFragment"
+        android:label="GymCheckInFragment" />
+
+</navigation>

@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Add this missing TextView -->
+    <TextView
+        android:id="@+id/tvVitalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Vital"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etVital1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Value 1" />
+
+    <EditText
+        android:id="@+id/etVital2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Value 2"
+        android:visibility="gone" /> <!-- Optional second field -->
+
+    <Button
+        android:id="@+id/btnSaveVital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
