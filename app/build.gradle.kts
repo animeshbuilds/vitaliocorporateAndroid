@@ -71,12 +71,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
-//    implementation(fileTree(mapOf(
-//        "dir" to "C:\\Gitea_Projects\\nativevitalio\\app\\libs\\omronconnectivitylibrary.aar",
-//        "include" to listOf("*.aar", "*.jar"),
-//    )))
-
     implementation(fileTree(mapOf(
         "dir" to "libs",
         "include" to listOf("*.aar", "*.jar")
@@ -94,15 +88,15 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.glide)
     // OkHttp core + Okio (for ByteString.toByteString)
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okio:okio:3.9.0")
-    implementation("androidx.camera:camera-camera2:1.3.1")
-    implementation("androidx.camera:camera-lifecycle:1.3.1")
-    implementation("androidx.camera:camera-view:1.3.1")
+    implementation(libs.okhttp)
+    implementation(libs.okio)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 // ML Kit QR Scanner
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
     // ✅ This fixes the ListenableFuture error
-    implementation("com.google.guava:guava:32.1.3-android")
+    implementation(libs.guava)
     implementation(libs.shimmer)
 
     implementation(libs.logging.interceptor) // or latest version
@@ -112,16 +106,16 @@ dependencies {
     implementation (libs.sdp.android)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.installations)
-    implementation("com.github.CanHub:Android-Image-Cropper:4.3.2")
+    implementation(libs.android.image.cropper)
 //    implementation("com.github.barteksc.pdfviewer:android-pdf-viewer:3.1.0") // Stable version of PDFView
-    implementation ("com.google.android.material:material:1.4.0")
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.23")
+    implementation (libs.material.v140)
+    implementation(libs.android.gif.drawable.v1223)
     //otp view
 //    implementation (libs.otpview)
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation (libs.gson)
     implementation (libs.android.gif.drawable)
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.zxing.android.embedded)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // retrofit
@@ -136,13 +130,13 @@ dependencies {
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
     implementation (libs.flexbox)
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("com.tbuonomo:dotsindicator:4.3")
-    implementation("net.openid:appauth:0.11.1")
+    implementation(libs.androidx.constraintlayout.v214)
+    implementation (libs.dotsindicator)
+    implementation(libs.appauth)
     implementation (libs.androidx.room.runtime)
     implementation (libs.androidx.room.ktx)
-    kapt("androidx.room:room-compiler:2.8.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.swiperefreshlayout)
     
 
 }
